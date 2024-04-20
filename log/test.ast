@@ -1,0 +1,95 @@
+Module(
+    body=[
+        ImportFrom(
+            module='jinja2',
+            names=[
+                alias(name='Template')],
+            level=0),
+        ImportFrom(
+            module='flask',
+            names=[
+                alias(name='request')],
+            level=0),
+        Import(
+            names=[
+                alias(name='flask')]),
+        Assign(
+            targets=[
+                Name(id='app', ctx=Store())],
+            value=Call(
+                func=Attribute(
+                    value=Name(id='flask', ctx=Load()),
+                    attr='Flask',
+                    ctx=Load()),
+                args=[
+                    Name(id='__name__', ctx=Load())],
+                keywords=[])),
+        Assign(
+            targets=[
+                Subscript(
+                    value=Attribute(
+                        value=Name(id='app', ctx=Load()),
+                        attr='config',
+                        ctx=Load()),
+                    slice=Constant(value='DEBUG'),
+                    ctx=Store())],
+            value=Constant(value=True)),
+        FunctionDef(
+            name='home',
+            args=arguments(
+                posonlyargs=[],
+                args=[],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                Assign(
+                    targets=[
+                        Name(id='renderer', ctx=Store())],
+                    value=Call(
+                        func=Name(id='Template', ctx=Load()),
+                        args=[
+                            BinOp(
+                                left=Constant(value='Hello, '),
+                                op=Add(),
+                                right=Subscript(
+                                    value=Attribute(
+                                        value=Name(id='request', ctx=Load()),
+                                        attr='args',
+                                        ctx=Load()),
+                                    slice=Constant(value='name'),
+                                    ctx=Load()))],
+                        keywords=[])),
+                Return(
+                    value=Call(
+                        func=Attribute(
+                            value=Name(id='renderer', ctx=Load()),
+                            attr='render',
+                            ctx=Load()),
+                        args=[],
+                        keywords=[]))],
+            decorator_list=[
+                Call(
+                    func=Attribute(
+                        value=Name(id='app', ctx=Load()),
+                        attr='route',
+                        ctx=Load()),
+                    args=[
+                        Constant(value='/')],
+                    keywords=[
+                        keyword(
+                            arg='methods',
+                            value=List(
+                                elts=[
+                                    Constant(value='GET')],
+                                ctx=Load()))])],
+            type_params=[]),
+        Expr(
+            value=Call(
+                func=Attribute(
+                    value=Name(id='app', ctx=Load()),
+                    attr='run',
+                    ctx=Load()),
+                args=[],
+                keywords=[]))],
+    type_ignores=[])

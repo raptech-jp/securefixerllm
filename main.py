@@ -1,39 +1,26 @@
-import openai
+import os
+import ast
 
-standard_prompt = '''
-#####You will be provided with a piece of Python code, and your task is to find and fix bugs in it.
-###Buggy Python
-{input}
-###Fixed Python
-'''
+folder_path = "vulnerable-code-snippets/python"
+file_extension = ".py"
 
-cot_prompt_step1a = '''
-You will be given an input. The input, after the line "Buggy code:", contains a snippet of buggy Python code with a bug on a single line, and maybe unit test information. Given the input, analyze root cause and localize the faulty line by understanding the difference between actual output and expected output, finally output the a hypothesis about the fault's location and reason after the line "Fault hypothesis:".
+os.makedirs("log", exist_ok=True)
 
-Buggy code:
-    {input}
+converted_count = 0 
+for root, dirs, files in os.walk(folder_path):
+    for file in files:
+        if file.endswith(file_extension):
+            file_path = os.path.join(root, file)
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    source = f.read()
+                    tree = ast.parse(source=source)
+                    log_file_path = os.path.join("log", os.path.splitext(file)[0] + ".ast")
+                    with open(log_file_path, "w", encoding="utf-8") as log_file:
+                        log_file.write(ast.dump(tree, indent=4))
+                    converted_count += 1
+            except Exception as e:
+                print(f"Error processing file: {file_path}")
+                print(f"Error message: {str(e)}")
 
-Fault hypothesis:
-'''
-
-cot_prompt_step2a = '''
-You will be given two parts of the input. The first part, after the line "Buggy code:", contains a snippet of buggy Python code with a bug on a single line, and maybe unit test information. The second part, after the line "Fault hypothesis:", contains a hypothesis about the fault's location and reason. Given these inputs, output the fixed code after the line "Fixed code:".
-
-Buggy code:
-    {input1}
-
-Fault hypothesis:
-    {input2}
-    
-Fixed code:
-'''
-
-vote_prompt = '''Given an instruction and several choices, decide which choice is most promising. Analyze each choice in detail, then conclude in the last line "The best choice is {s}", where s the integer id of the choice.
-
-Instruction: You will be provided with a piece of Python code, and your task is to find and fix bugs in it.
-
-Buggy code:
-'''
-
-score_prompt = '''Analyze the following fixed code, then at the last line conclude "Thus the fixed code quality score is {s}", where s is an integer from 1 to 10.
-'''
+print(f"Number of files converted: {converted_count}")

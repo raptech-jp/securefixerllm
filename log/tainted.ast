@@ -1,0 +1,74 @@
+Module(
+    body=[
+        Import(
+            names=[
+                alias(name='os')]),
+        ImportFrom(
+            module='flask',
+            names=[
+                alias(name='Flask'),
+                alias(name='request')],
+            level=0),
+        Assign(
+            targets=[
+                Name(id='app', ctx=Store())],
+            value=Call(
+                func=Name(id='Flask', ctx=Load()),
+                args=[
+                    Name(id='__name__', ctx=Load())],
+                keywords=[])),
+        FunctionDef(
+            name='test_sources_7',
+            args=arguments(
+                posonlyargs=[],
+                args=[
+                    arg(arg='something')],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                Expr(
+                    value=Call(
+                        func=Attribute(
+                            value=Name(id='os', ctx=Load()),
+                            attr='system',
+                            ctx=Load()),
+                        args=[
+                            Attribute(
+                                value=Name(id='request', ctx=Load()),
+                                attr='remote_addr',
+                                ctx=Load())],
+                        keywords=[])),
+                Return(
+                    value=Constant(value='foo'))],
+            decorator_list=[
+                Call(
+                    func=Attribute(
+                        value=Name(id='app', ctx=Load()),
+                        attr='route',
+                        ctx=Load()),
+                    args=[
+                        Constant(value='/tainted7/<something>')],
+                    keywords=[])],
+            type_params=[]),
+        If(
+            test=Compare(
+                left=Name(id='__name__', ctx=Load()),
+                ops=[
+                    Eq()],
+                comparators=[
+                    Constant(value='__main__')]),
+            body=[
+                Expr(
+                    value=Call(
+                        func=Attribute(
+                            value=Name(id='app', ctx=Load()),
+                            attr='run',
+                            ctx=Load()),
+                        args=[],
+                        keywords=[
+                            keyword(
+                                arg='debug',
+                                value=Constant(value=True))]))],
+            orelse=[])],
+    type_ignores=[])

@@ -1,0 +1,409 @@
+Module(
+    body=[
+        Import(
+            names=[
+                alias(name='os')]),
+        ImportFrom(
+            module='flask',
+            names=[
+                alias(name='Flask'),
+                alias(name='render_template'),
+                alias(name='request'),
+                alias(name='url_for'),
+                alias(name='redirect'),
+                alias(name='session'),
+                alias(name='render_template_string')],
+            level=0),
+        ImportFrom(
+            module='flask.ext.session',
+            names=[
+                alias(name='Session')],
+            level=0),
+        Assign(
+            targets=[
+                Name(id='app', ctx=Store())],
+            value=Call(
+                func=Name(id='Flask', ctx=Load()),
+                args=[
+                    Name(id='__name__', ctx=Load())],
+                keywords=[])),
+        Expr(
+            value=Call(
+                func=Name(id='execfile', ctx=Load()),
+                args=[
+                    Constant(value='flag.py')],
+                keywords=[])),
+        Expr(
+            value=Call(
+                func=Name(id='execfile', ctx=Load()),
+                args=[
+                    Constant(value='key.py')],
+                keywords=[])),
+        Assign(
+            targets=[
+                Name(id='FLAG', ctx=Store())],
+            value=Name(id='flag', ctx=Load())),
+        Assign(
+            targets=[
+                Attribute(
+                    value=Name(id='app', ctx=Load()),
+                    attr='secret_key',
+                    ctx=Store())],
+            value=Name(id='key', ctx=Load())),
+        FunctionDef(
+            name='golem',
+            args=arguments(
+                posonlyargs=[],
+                args=[],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                If(
+                    test=Compare(
+                        left=Attribute(
+                            value=Name(id='request', ctx=Load()),
+                            attr='method',
+                            ctx=Load()),
+                        ops=[
+                            NotEq()],
+                        comparators=[
+                            Constant(value='POST')]),
+                    body=[
+                        Return(
+                            value=Call(
+                                func=Name(id='redirect', ctx=Load()),
+                                args=[
+                                    Call(
+                                        func=Name(id='url_for', ctx=Load()),
+                                        args=[
+                                            Constant(value='index')],
+                                        keywords=[])],
+                                keywords=[]))],
+                    orelse=[]),
+                Assign(
+                    targets=[
+                        Name(id='golem', ctx=Store())],
+                    value=BoolOp(
+                        op=Or(),
+                        values=[
+                            Call(
+                                func=Attribute(
+                                    value=Attribute(
+                                        value=Name(id='request', ctx=Load()),
+                                        attr='form',
+                                        ctx=Load()),
+                                    attr='get',
+                                    ctx=Load()),
+                                args=[
+                                    Constant(value='golem')],
+                                keywords=[]),
+                            Constant(value=None)])),
+                If(
+                    test=Compare(
+                        left=Name(id='golem', ctx=Load()),
+                        ops=[
+                            IsNot()],
+                        comparators=[
+                            Constant(value=None)]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='golem', ctx=Store())],
+                            value=Call(
+                                func=Attribute(
+                                    value=Call(
+                                        func=Attribute(
+                                            value=Call(
+                                                func=Attribute(
+                                                    value=Call(
+                                                        func=Attribute(
+                                                            value=Name(id='golem', ctx=Load()),
+                                                            attr='replace',
+                                                            ctx=Load()),
+                                                        args=[
+                                                            Constant(value='.'),
+                                                            Constant(value='')],
+                                                        keywords=[]),
+                                                    attr='replace',
+                                                    ctx=Load()),
+                                                args=[
+                                                    Constant(value='_'),
+                                                    Constant(value='')],
+                                                keywords=[]),
+                                            attr='replace',
+                                            ctx=Load()),
+                                        args=[
+                                            Constant(value='{'),
+                                            Constant(value='')],
+                                        keywords=[]),
+                                    attr='replace',
+                                    ctx=Load()),
+                                args=[
+                                    Constant(value='}'),
+                                    Constant(value='')],
+                                keywords=[]))],
+                    orelse=[]),
+                If(
+                    test=BoolOp(
+                        op=Or(),
+                        values=[
+                            Compare(
+                                left=Constant(value='golem'),
+                                ops=[
+                                    NotIn()],
+                                comparators=[
+                                    Name(id='session', ctx=Load())]),
+                            Compare(
+                                left=Subscript(
+                                    value=Name(id='session', ctx=Load()),
+                                    slice=Constant(value='golem'),
+                                    ctx=Load()),
+                                ops=[
+                                    Is()],
+                                comparators=[
+                                    Constant(value=None)])]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Subscript(
+                                    value=Name(id='session', ctx=Load()),
+                                    slice=Constant(value='golem'),
+                                    ctx=Store())],
+                            value=Name(id='golem', ctx=Load()))],
+                    orelse=[]),
+                Assign(
+                    targets=[
+                        Name(id='template', ctx=Store())],
+                    value=Constant(value=None)),
+                If(
+                    test=Compare(
+                        left=Subscript(
+                            value=Name(id='session', ctx=Load()),
+                            slice=Constant(value='golem'),
+                            ctx=Load()),
+                        ops=[
+                            IsNot()],
+                        comparators=[
+                            Constant(value=None)]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='template', ctx=Store())],
+                            value=BinOp(
+                                left=Constant(value='{% % extends "layout.html" % %}\n\t\t{% % block body % %}\n\t\t<h1 > Golem Name < /h1 >\n\t\t<div class ="row >\n\t\t<div class = "col-md-6 col-md-offset-3 center" >\n\t\tHello: % s, why you don\'t look at our <a href=\' / article?name = article\'> article < /a >?\n\t\t< / div >\n\t\t< / div >\n\t\t{% % endblock % %}\n\t\t'),
+                                op=Mod(),
+                                right=Subscript(
+                                    value=Name(id='session', ctx=Load()),
+                                    slice=Constant(value='golem'),
+                                    ctx=Load()))),
+                        Expr(
+                            value=Name(id='print', ctx=Load())),
+                        Assign(
+                            targets=[
+                                Subscript(
+                                    value=Name(id='session', ctx=Load()),
+                                    slice=Constant(value='golem'),
+                                    ctx=Store())],
+                            value=Constant(value=None))],
+                    orelse=[]),
+                Return(
+                    value=Call(
+                        func=Name(id='render_template_string', ctx=Load()),
+                        args=[
+                            Name(id='template', ctx=Load())],
+                        keywords=[]))],
+            decorator_list=[
+                Call(
+                    func=Attribute(
+                        value=Name(id='app', ctx=Load()),
+                        attr='route',
+                        ctx=Load()),
+                    args=[
+                        Constant(value='/golem')],
+                    keywords=[
+                        keyword(
+                            arg='methods',
+                            value=List(
+                                elts=[
+                                    Constant(value='GET'),
+                                    Constant(value='POST')],
+                                ctx=Load()))])],
+            type_params=[]),
+        FunctionDef(
+            name='index',
+            args=arguments(
+                posonlyargs=[],
+                args=[],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                Return(
+                    value=Call(
+                        func=Name(id='render_template', ctx=Load()),
+                        args=[
+                            Constant(value='main.html')],
+                        keywords=[]))],
+            decorator_list=[
+                Call(
+                    func=Attribute(
+                        value=Name(id='app', ctx=Load()),
+                        attr='route',
+                        ctx=Load()),
+                    args=[
+                        Constant(value='/')],
+                    keywords=[
+                        keyword(
+                            arg='methods',
+                            value=List(
+                                elts=[
+                                    Constant(value='GET')],
+                                ctx=Load()))])],
+            type_params=[]),
+        FunctionDef(
+            name='article',
+            args=arguments(
+                posonlyargs=[],
+                args=[],
+                kwonlyargs=[],
+                kw_defaults=[],
+                defaults=[]),
+            body=[
+                Assign(
+                    targets=[
+                        Name(id='error', ctx=Store())],
+                    value=Constant(value=0)),
+                If(
+                    test=Compare(
+                        left=Constant(value='name'),
+                        ops=[
+                            In()],
+                        comparators=[
+                            Attribute(
+                                value=Name(id='request', ctx=Load()),
+                                attr='args',
+                                ctx=Load())]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='page', ctx=Store())],
+                            value=Call(
+                                func=Attribute(
+                                    value=Attribute(
+                                        value=Name(id='request', ctx=Load()),
+                                        attr='args',
+                                        ctx=Load()),
+                                    attr='get',
+                                    ctx=Load()),
+                                args=[
+                                    Constant(value='name')],
+                                keywords=[]))],
+                    orelse=[
+                        Assign(
+                            targets=[
+                                Name(id='page', ctx=Store())],
+                            value=Constant(value='article'))]),
+                If(
+                    test=Compare(
+                        left=Call(
+                            func=Attribute(
+                                value=Name(id='page', ctx=Load()),
+                                attr='find',
+                                ctx=Load()),
+                            args=[
+                                Constant(value='flag')],
+                            keywords=[]),
+                        ops=[
+                            GtE()],
+                        comparators=[
+                            Constant(value=0)]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='page', ctx=Store())],
+                            value=Constant(value='notallowed.txt'))],
+                    orelse=[]),
+                Try(
+                    body=[
+                        Assign(
+                            targets=[
+                                Name(id='template', ctx=Store())],
+                            value=Call(
+                                func=Attribute(
+                                    value=Call(
+                                        func=Name(id='open', ctx=Load()),
+                                        args=[
+                                            Call(
+                                                func=Attribute(
+                                                    value=Constant(value='/home/golem/articles/{}'),
+                                                    attr='format',
+                                                    ctx=Load()),
+                                                args=[
+                                                    Name(id='page', ctx=Load())],
+                                                keywords=[])],
+                                        keywords=[]),
+                                    attr='read',
+                                    ctx=Load()),
+                                args=[],
+                                keywords=[]))],
+                    handlers=[
+                        ExceptHandler(
+                            type=Name(id='Exception', ctx=Load()),
+                            name='e',
+                            body=[
+                                Assign(
+                                    targets=[
+                                        Name(id='template', ctx=Store())],
+                                    value=Name(id='e', ctx=Load()))])],
+                    orelse=[],
+                    finalbody=[]),
+                Return(
+                    value=Call(
+                        func=Name(id='render_template', ctx=Load()),
+                        args=[
+                            Constant(value='article.html')],
+                        keywords=[
+                            keyword(
+                                arg='template',
+                                value=Name(id='template', ctx=Load()))]))],
+            decorator_list=[
+                Call(
+                    func=Attribute(
+                        value=Name(id='app', ctx=Load()),
+                        attr='route',
+                        ctx=Load()),
+                    args=[
+                        Constant(value='/article')],
+                    keywords=[
+                        keyword(
+                            arg='methods',
+                            value=List(
+                                elts=[
+                                    Constant(value='GET')],
+                                ctx=Load()))])],
+            type_params=[]),
+        If(
+            test=Compare(
+                left=Name(id='__name__', ctx=Load()),
+                ops=[
+                    Eq()],
+                comparators=[
+                    Constant(value='__main__')]),
+            body=[
+                Expr(
+                    value=Call(
+                        func=Attribute(
+                            value=Name(id='app', ctx=Load()),
+                            attr='run',
+                            ctx=Load()),
+                        args=[],
+                        keywords=[
+                            keyword(
+                                arg='host',
+                                value=Constant(value='0.0.0.0')),
+                            keyword(
+                                arg='debug',
+                                value=Constant(value=False))]))],
+            orelse=[])],
+    type_ignores=[])

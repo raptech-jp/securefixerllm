@@ -1,0 +1,50 @@
+Module(
+    body=[
+        ClassDef(
+            name='Button',
+            bases=[],
+            keywords=[],
+            body=[
+                FunctionDef(
+                    name='__init__',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self')],
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        defaults=[]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='pushed',
+                                    ctx=Store())],
+                            value=Constant(value=False))],
+                    decorator_list=[]),
+                FunctionDef(
+                    name='push',
+                    args=arguments(
+                        posonlyargs=[],
+                        args=[
+                            arg(arg='self')],
+                        kwonlyargs=[],
+                        kw_defaults=[],
+                        defaults=[]),
+                    body=[
+                        Assign(
+                            targets=[
+                                Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='pushed',
+                                    ctx=Store())],
+                            value=UnaryOp(
+                                op=Not(),
+                                operand=Attribute(
+                                    value=Name(id='self', ctx=Load()),
+                                    attr='pushed',
+                                    ctx=Load())))],
+                    decorator_list=[])],
+            decorator_list=[])],
+    type_ignores=[])
