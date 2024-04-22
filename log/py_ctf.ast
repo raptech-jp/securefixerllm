@@ -228,8 +228,7 @@ Module(
                                 elts=[
                                     Constant(value='GET'),
                                     Constant(value='POST')],
-                                ctx=Load()))])],
-            type_params=[]),
+                                ctx=Load()))])]),
         FunctionDef(
             name='index',
             args=arguments(
@@ -259,8 +258,7 @@ Module(
                             value=List(
                                 elts=[
                                     Constant(value='GET')],
-                                ctx=Load()))])],
-            type_params=[]),
+                                ctx=Load()))])]),
         FunctionDef(
             name='article',
             args=arguments(
@@ -381,8 +379,7 @@ Module(
                             value=List(
                                 elts=[
                                     Constant(value='GET')],
-                                ctx=Load()))])],
-            type_params=[]),
+                                ctx=Load()))])]),
         If(
             test=Compare(
                 left=Name(id='__name__', ctx=Load()),

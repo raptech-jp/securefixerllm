@@ -49,8 +49,7 @@ Module(
                         ctx=Load()),
                     args=[
                         Constant(value='/tainted7/<something>')],
-                    keywords=[])],
-            type_params=[]),
+                    keywords=[])]),
         If(
             test=Compare(
                 left=Name(id='__name__', ctx=Load()),

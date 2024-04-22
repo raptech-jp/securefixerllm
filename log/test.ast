@@ -82,8 +82,7 @@ Module(
                             value=List(
                                 elts=[
                                     Constant(value='GET')],
-                                ctx=Load()))])],
-            type_params=[]),
+                                ctx=Load()))])]),
         Expr(
             value=Call(
                 func=Attribute(

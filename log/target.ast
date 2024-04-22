@@ -22,8 +22,7 @@ Module(
                                     attr='pushed',
                                     ctx=Store())],
                             value=Constant(value=False))],
-                    decorator_list=[],
-                    type_params=[]),
+                    decorator_list=[]),
                 FunctionDef(
                     name='push',
                     args=arguments(
@@ -46,8 +45,6 @@ Module(
                                     value=Name(id='self', ctx=Load()),
                                     attr='pushed',
                                     ctx=Load())))],
-                    decorator_list=[],
-                    type_params=[])],
-            decorator_list=[],
-            type_params=[])],
+                    decorator_list=[])],
+            decorator_list=[])],
     type_ignores=[])
